@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add a Product</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:      #FBF6EE;
+      --sand:       #EDE3D3;
+      --terracotta: #C4714A;
+      --warm-brown: #5C3D2E;
+      --soft-green: #7A9E7E;
+      --text:       #3A2A1E;
+      --muted:      #8A7060;
+    }
+
+    body {
+      background-color: var(--cream);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background-color: var(--warm-brown);
+      padding: 2.5rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 28px;
+      background: var(--cream);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .header-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sand);
+      opacity: 0.8;
+      margin-bottom: 0.5rem;
+    }
+    header h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.9rem, 4.5vw, 3rem);
+      font-weight: 600;
+      color: var(--cream);
+      line-height: 1.15;
+    }
+    header h1 em {
+      font-style: italic;
+      color: #F2C4A0;
+    }
+    .header-sub {
+      margin-top: 0.75rem;
+      color: var(--sand);
+      opacity: 0.75;
+      font-size: 0.95rem;
+    }
+    .header-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1.5rem;
+      position: relative;
+      z-index: 1;
+      color: var(--sand);
+      opacity: 0.7;
+      font-size: 0.82rem;
+      font-weight: 500;
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: opacity 0.18s;
+    }
+    .header-back:hover { opacity: 1; }
+    .header-back svg { width: 14px; height: 14px; }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 580px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem 6rem;
+    }
+
+    /* ── FORM CARD ── */
+    .form-card {
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 4px 20px rgba(58,42,30,0.09);
+      padding: 2.5rem 2rem;
+    }
+
+    .form-section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.4rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--sand);
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.35rem;
+      margin-bottom: 2rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .field label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--warm-brown);
+      letter-spacing: 0.01em;
+    }
+    .field label .req {
+      color: var(--terracotta);
+      margin-left: 2px;
+    }
+    .field .hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: -0.1rem;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 0.7rem 0.95rem;
+      border: 1.5px solid var(--sand);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--cream);
+      outline: none;
+      transition: border-color 0.18s, box-shadow 0.18s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .field input::placeholder { color: var(--muted); opacity: 0.65; }
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--warm-brown);
+      box-shadow: 0 0 0 3px rgba(92,61,46,0.1);
+    }
+    .field input.invalid,
+    .field select.invalid {
+      border-color: var(--terracotta);
+      box-shadow: 0 0 0 3px rgba(196,113,74,0.12);
+    }
+
+    /* select chevron */
+    .select-wrap {
+      position: relative;
+    }
+    .select-wrap select { padding-right: 2.2rem; cursor: pointer; }
+    .select-wrap::after {
+      content: '';
+      position: absolute;
+      right: 0.95rem;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid var(--muted);
+    }
+
+    .field-error {
+      font-size: 0.76rem;
+      color: var(--terracotta);
+      display: none;
+    }
+    .field-error.visible { display: block; }
+
+    /* price row */
+    .price-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* image preview */
+    .img-preview-wrap {
+      margin-top: 0.5rem;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--sand);
+      aspect-ratio: 4/3;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .img-preview-wrap.visible { display: flex; }
+    .img-preview-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── SUBMIT AREA ── */
+    .submit-area {
+      margin-top: 0.5rem;
+    }
+    .btn-submit {
+      width: 100%;
+      background: var(--warm-brown);
+      color: var(--cream);
+      border: none;
+      cursor: pointer;
+      padding: 0.85rem 1.5rem;
+      border-radius: 99px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: background 0.18s, opacity 0.18s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .btn-submit:hover:not(:disabled) { background: var(--terracotta); }
+    .btn-submit:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 3px; }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* spinner */
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(251,246,238,0.35);
+      border-top-color: var(--cream);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    .btn-submit.loading .spinner { display: block; }
+    .btn-submit.loading .btn-label { opacity: 0.75; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── SUCCESS OVERLAY ── */
+    .success-overlay {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1rem;
+      gap: 1rem;
+    }
+    .success-overlay.visible { display: flex; }
+    .success-icon {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: var(--soft-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .success-icon svg { width: 28px; height: 28px; stroke: #fff; }
+    .success-overlay h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--warm-brown);
+    }
+    .success-overlay p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      max-width: 280px;
+      line-height: 1.55;
+    }
+    .redirect-bar {
+      width: 100%;
+      max-width: 200px;
+      height: 3px;
+      border-radius: 99px;
+      background: var(--sand);
+      overflow: hidden;
+      margin-top: 0.25rem;
+    }
+    .redirect-bar-fill {
+      height: 100%;
+      background: var(--soft-green);
+      width: 0%;
+      transition: width 3s linear;
+    }
+    .redirect-bar-fill.go { width: 100%; }
+    .success-overlay .redirect-note {
+      font-size: 0.75rem;
+      color: var(--muted);
+      opacity: 0.7;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem 3rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 480px) {
+      .form-card { padding: 1.75rem 1.25rem; }
+      .price-row { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn-submit, .field input, .field select { transition: none; }
+      .spinner { animation: none; }
+      .redirect-bar-fill { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <p class="header-eyebrow">Add to your shop</p>
+  <h1>Enter a <em>new</em> product</h1>
+  <p class="header-sub">Fill in the details and it'll appear in the marketplace.</p>
+  <a href="index.html" class="header-back">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+    Back to shop
+  </a>
+</header>
+
+<main>
+  <div class="form-card" id="form-card">
+
+    <!-- ── FORM ── -->
+    <div id="form-inner">
+      <p class="form-section-label">Product details</p>
+
+      <div class="field-group">
+
+        <!-- Name -->
+        <div class="field" id="field-name">
+          <label for="inp-name">Product name <span class="req">*</span></label>
+          <input type="text" id="inp-name" name="name" placeholder="e.g. Hand-thrown Clay Mug" autocomplete="off" />
+          <span class="field-error" id="err-name">Please enter a product name.</span>
+        </div>
+
+        <!-- Category -->
+        <div class="field" id="field-category">
+          <label for="inp-category">Category <span class="req">*</span></label>
+          <input type="text" id="inp-category" name="category" placeholder="e.g. Ceramics, Textiles, Candles…" autocomplete="off" />
+          <span class="field-error" id="err-category">Please enter a category.</span>
+        </div>
+
+        <!-- Price -->
+        <div class="field" id="field-price">
+          <label for="inp-price">Price <span class="req">*</span></label>
+          <input type="text" id="inp-price" name="price" placeholder="e.g. $24.00 or ₩32,000" autocomplete="off" />
+          <span class="hint">Include the currency symbol.</span>
+          <span class="field-error" id="err-price">Please enter a price.</span>
+        </div>
+
+        <!-- Badge -->
+        <div class="field" id="field-badge">
+          <label for="inp-badge">Badge label</label>
+          <div class="select-wrap">
+            <select id="inp-badge" name="badge">
+              <option value="none">None</option>
+              <option value="New">New</option>
+              <option value="Sale">Sale</option>
+              <option value="Popular">Popular</option>
+              <option value="Limited">Limited</option>
+              <option value="Best Seller">Best Seller</option>
+            </select>
+          </div>
+          <span class="hint">Optional coloured tag shown on the product card.</span>
+        </div>
+
+        <!-- Image URL -->
+        <div class="field" id="field-img">
+          <label for="inp-img">Image URL <span class="req">*</span></label>
+          <input type="url" id="inp-img" name="img" placeholder="https://…" autocomplete="off" />
+          <span class="hint">Paste a direct image link (jpg, png, webp…).</span>
+          <span class="field-error" id="err-img">Please enter a valid image URL starting with https://</span>
+          <div class="img-preview-wrap" id="img-preview-wrap">
+            <img id="img-preview" src="" alt="Image preview" />
+          </div>
+        </div>
+
+      </div><!-- /field-group -->
+
+      <div class="submit-area">
+        <button type="button" class="btn-submit" id="btn-submit">
+          <span class="spinner" aria-hidden="true"></span>
+          <span class="btn-label">Add product</span>
+        </button>
+      </div>
+    </div><!-- /form-inner -->
+
+    <!-- ── SUCCESS STATE ── -->
+    <div class="success-overlay" id="success-overlay" aria-live="polite">
+      <div class="success-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <h2>Product added!</h2>
+      <p>Your product has been sent to the sheet. It'll show up in the marketplace once the data refreshes.</p>
+      <div class="redirect-bar"><div class="redirect-bar-fill" id="redirect-fill"></div></div>
+      <p class="redirect-note">Returning to the shop in a moment…</p>
+    </div>
+
+  </div><!-- /form-card -->
+</main>
+
+<footer>© 2026 Your Shop · All rights reserved</footer>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────────────────
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxuaTmWinQSOtIpeJzC9bSNsBbMreYi5_TCn5e3jSq7IqXUUMNEZGANgWRvk4zA_x4M/exec";
+  // ────────────────────────────────────────────────────────────────────────
+
+  const btn        = document.getElementById('btn-submit');
+  const formInner  = document.getElementById('form-inner');
+  const successEl  = document.getElementById('success-overlay');
+  const imgInput   = document.getElementById('inp-img');
+  const imgPreview = document.getElementById('img-preview');
+  const previewWrap = document.getElementById('img-preview-wrap');
+
+  // Live image preview
+  let previewTimeout;
+  imgInput.addEventListener('input', () => {
+    clearTimeout(previewTimeout);
+    const val = imgInput.value.trim();
+    if (!val) { previewWrap.classList.remove('visible'); return; }
+    previewTimeout = setTimeout(() => {
+      imgPreview.onload  = () => previewWrap.classList.add('visible');
+      imgPreview.onerror = () => previewWrap.classList.remove('visible');
+      imgPreview.src = val;
+    }, 500);
+  });
+
+  // ── Validation ──────────────────────────────────────────────────────────
+  function showError(id, errId) {
+    document.getElementById(id).querySelector('input, select').classList.add('invalid');
+    document.getElementById(errId).classList.add('visible');
+  }
+  function clearError(id, errId) {
+    const el = document.getElementById(id).querySelector('input, select');
+    if (el) { el.classList.remove('invalid'); }
+    const errEl = document.getElementById(errId);
+    if (errEl) errEl.classList.remove('visible');
+  }
+
+  // Clear errors on input
+  ['inp-name','inp-category','inp-price','inp-img'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => {
+      el.classList.remove('invalid');
+      const errId = 'err-' + id.replace('inp-', '');
+      const errEl = document.getElementById(errId);
+      if (errEl) errEl.classList.remove('visible');
+    });
+  });
+
+  function validate() {
+    let ok = true;
+    const name     = document.getElementById('inp-name').value.trim();
+    const category = document.getElementById('inp-category').value.trim();
+    const price    = document.getElementById('inp-price').value.trim();
+    const img      = document.getElementById('inp-img').value.trim();
+
+    if (!name)     { showError('field-name',     'err-name');     ok = false; }
+    if (!category) { showError('field-category', 'err-category'); ok = false; }
+    if (!price)    { showError('field-price',    'err-price');    ok = false; }
+    if (!img || !/^https?:\/\/.+/.test(img)) {
+      showError('field-img', 'err-img'); ok = false;
+    }
+    return ok;
+  }
+
+  // ── Submit ──────────────────────────────────────────────────────────────
+  btn.addEventListener('click', async () => {
+    // Clear previous errors
+    ['field-name','field-category','field-price','field-img'].forEach((fid, i) => {
+      clearError(fid, ['err-name','err-category','err-price','err-img'][i]);
+    });
+
+    if (!validate()) return;
+
+    const params = new URLSearchParams({
+      name:     document.getElementById('inp-name').value.trim(),
+      category: document.getElementById('inp-category').value.trim(),
+      price:    document.getElementById('inp-price').value.trim(),
+      badge:    document.getElementById('inp-badge').value,
+      img:      document.getElementById('inp-img').value.trim(),
+    });
+
+    // Loading state
+    btn.disabled = true;
+    btn.classList.add('loading');
+    btn.querySelector('.btn-label').textContent = 'Saving…';
+
+    try {
+      const res = await fetch(`${WEB_APP_URL}?${params.toString()}`, { method: 'GET' });
+      if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+
+      // Success
+      formInner.style.display = 'none';
+      successEl.classList.add('visible');
+      // Animate progress bar then redirect
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.getElementById('redirect-fill').classList.add('go');
+        });
+      });
+      setTimeout(() => { window.location.href = 'index.html'; }, 3200);
+
+    } catch (err) {
+      btn.disabled = false;
+      btn.classList.remove('loading');
+      btn.querySelector('.btn-label').textContent = 'Add product';
+
+      // Inline error message below button
+      let existing = document.getElementById('submit-error');
+      if (!existing) {
+        existing = document.createElement('p');
+        existing.id = 'submit-error';
+        existing.style.cssText = 'font-size:0.8rem;color:var(--terracotta);text-align:center;margin-top:0.75rem;';
+        btn.parentNode.appendChild(existing);
+      }
+      existing.textContent = `Submission failed: ${err.message}. Check that your Web App URL is set correctly.`;
+    }
+  });
+</script>
+</body>
+</html>
