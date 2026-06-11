@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Products</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:    #FBF6EE;
+      --sand:     #EDE3D3;
+      --terracotta: #C4714A;
+      --warm-brown: #5C3D2E;
+      --soft-green: #7A9E7E;
+      --text:     #3A2A1E;
+      --muted:    #8A7060;
+    }
+
+    body {
+      background-color: var(--cream);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background-color: var(--warm-brown);
+      padding: 2.5rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 28px;
+      background: var(--cream);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .header-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sand);
+      opacity: 0.8;
+      margin-bottom: 0.5rem;
+    }
+    header h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 600;
+      color: var(--cream);
+      line-height: 1.15;
+    }
+    header h1 em {
+      font-style: italic;
+      color: #F2C4A0;
+    }
+    .header-sub {
+      margin-top: 0.75rem;
+      color: var(--sand);
+      opacity: 0.75;
+      font-size: 0.95rem;
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    /* ── GRID ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.75rem;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: #fff;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(58,42,30,0.07);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(58,42,30,0.13);
+    }
+
+    .card-img-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--sand);
+      overflow: hidden;
+    }
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+    .card:hover .card-img-wrap img {
+      transform: scale(1.04);
+    }
+
+    /* coloured tag strip */
+    .card-tag {
+      position: absolute;
+      top: 12px; left: 12px;
+      background: var(--soft-green);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 99px;
+    }
+
+    .card-body {
+      padding: 1.1rem 1.25rem 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .card-name {
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--warm-brown);
+      line-height: 1.3;
+    }
+    .card-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+      flex: 1;
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.9rem;
+    }
+    .card-price {
+      font-family: 'Fraunces', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--terracotta);
+    }
+    .btn-add {
+      background: var(--warm-brown);
+      color: var(--cream);
+      border: none;
+      cursor: pointer;
+      padding: 0.45rem 1rem;
+      border-radius: 99px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: background 0.18s;
+    }
+    .btn-add:hover { background: var(--terracotta); }
+    .btn-add:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 2px; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem 3rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 480px) {
+      .grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .card-body { padding: 0.85rem 1rem 1rem; }
+      .card-name { font-size: 0.92rem; }
+    }
+    @media (max-width: 340px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .card, .card-img-wrap img { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <p class="header-eyebrow">Handpicked for you</p>
+  <h1>Things we <em>love</em> to make</h1>
+  <p class="header-sub">Fresh finds, honest prices, made with care.</p>
+</header>
+
+<main>
+  <div class="grid" id="product-grid"></div>
+</main>
+
+<footer>© 2026 Your Shop · All rights reserved</footer>
+
+<style>
+  /* Loading skeleton */
+  .skeleton-card {
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(58,42,30,0.07);
+  }
+  .skeleton-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: var(--sand);
+    animation: shimmer 1.4s infinite;
+  }
+  .skeleton-body { padding: 1.1rem 1.25rem 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .skeleton-line {
+    height: 14px;
+    border-radius: 6px;
+    background: var(--sand);
+    animation: shimmer 1.4s infinite;
+  }
+  .skeleton-line.short { width: 45%; }
+  .skeleton-line.medium { width: 70%; }
+  .skeleton-line.full { width: 100%; }
+  @keyframes shimmer {
+    0%   { opacity: 0.55; }
+    50%  { opacity: 1; }
+    100% { opacity: 0.55; }
+  }
+
+  /* Error state */
+  .error-msg {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--muted);
+  }
+  .error-msg strong { display: block; font-size: 1.1rem; color: var(--terracotta); margin-bottom: 0.5rem; }
+</style>
+
+<script>
+  const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQjvNiUM3Jbas77bNPKL1PS1gdJGXX8-uteBJU8XzFFm-46_7XzMh2hUL-YPgwl8WHfMi6FKlho6Usi/pub?output=csv';
+  const grid = document.getElementById('product-grid');
+
+  // Show loading skeletons
+  function showSkeletons(count = 8) {
+    grid.innerHTML = Array.from({ length: count }, () => `
+      <div class="skeleton-card">
+        <div class="skeleton-img"></div>
+        <div class="skeleton-body">
+          <div class="skeleton-line medium"></div>
+          <div class="skeleton-line full"></div>
+          <div class="skeleton-line short"></div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Parse CSV text into array of objects keyed by header row
+  function parseCSV(text) {
+    const lines = text.trim().split('\n');
+    const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/\r/g, ''));
+    return lines.slice(1).map(line => {
+      // Handle quoted fields with commas inside
+      const cols = [];
+      let cur = '', inQuote = false;
+      for (const ch of line.replace(/\r/g, '')) {
+        if (ch === '"') { inQuote = !inQuote; }
+        else if (ch === ',' && !inQuote) { cols.push(cur); cur = ''; }
+        else { cur += ch; }
+      }
+      cols.push(cur);
+      return Object.fromEntries(headers.map((h, i) => [h, (cols[i] || '').trim()]));
+    }).filter(row => row.name); // skip blank rows
+  }
+
+  function renderCard(p) {
+    const card = document.createElement('article');
+    card.className = 'card';
+    const badge = p.badge && p.badge.toLowerCase() !== 'none' ? p.badge : '';
+    card.innerHTML = `
+      <div class="card-img-wrap">
+        <img src="${p.img}" alt="${p.name}" loading="lazy"
+             onerror="this.style.opacity='0.3';this.src='https://placehold.co/600x450/EDE3D3/8A7060?text=No+image'" />
+        ${badge ? `<span class="card-tag">${badge}</span>` : ''}
+      </div>
+      <div class="card-body">
+        <div class="card-name">${p.name}</div>
+        <p class="card-desc">${p.category || ''}</p>
+        <div class="card-footer">
+          <span class="card-price">${p.price}</span>
+          <button class="btn-add" aria-label="Add ${p.name} to cart">Add to cart</button>
+        </div>
+      </div>
+    `;
+    return card;
+  }
+
+  async function loadProducts() {
+    showSkeletons();
+    try {
+      const res = await fetch(SHEET_URL);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      const products = parseCSV(text);
+      grid.innerHTML = '';
+      if (products.length === 0) {
+        grid.innerHTML = '<div class="error-msg"><strong>No products found</strong>Make sure your sheet has a header row with: name, category, price, badge, img</div>';
+        return;
+      }
+      products.forEach(p => grid.appendChild(renderCard(p)));
+    } catch (err) {
+      grid.innerHTML = `<div class="error-msg"><strong>Couldn't load products</strong>Check that the Google Sheet is published and the URL is correct.<br><small>${err.message}</small></div>`;
+    }
+  }
+
+  loadProducts();
+</script>
+</body>
+</html>
